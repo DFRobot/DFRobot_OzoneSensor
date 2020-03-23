@@ -69,14 +69,12 @@ public:
 ## Compatibility
 
 MCU                | Work Well | Work Wrong | Untested  | Remarks
------------------- | :----------: | :----------: | :---------: | 
-FireBeetle-ESP32   |      √       |              |             | 
-FireBeetle-ESP8266 |      √       |              |             | 
-Mega2560           |      √       |              |             | 
-Leonardo           |      √       |              |             | 
-Arduino uno        |      √       |              |             | 
-
-
+------------------ | :----------: | :----------: | :---------: | -----
+FireBeetle-ESP32  |      √       |             |            | 
+FireBeetle-ESP8266|      √       |              |             | 
+ATMEGA2560  |      √       |             |            | 
+Arduino uno |       √      |             |            | 
+Leonardo  |      √       |              |             | 
 
 ## History
 
