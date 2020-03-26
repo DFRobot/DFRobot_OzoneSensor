@@ -19,7 +19,7 @@
 
 #define COLLECT_NUMBER   20              // collect number, the collection range is 1-100
 #define Ozone_IICAddress ADDRESS_3
-/*   iic slave Address, The default is ADDRESS_0
+/*   iic slave Address, The default is ADDRESS_3
        ADDRESS_0               0x70      // iic device address
        ADDRESS_1               0x71
        ADDRESS_2               0x72
