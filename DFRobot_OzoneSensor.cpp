@@ -127,7 +127,6 @@ int DFRobot_OzoneSensor::getAverageNum(int bArray[], int iFilterLen)
   unsigned long bTemp = 0;
   for(i = 0; i < iFilterLen; i++) {
     bTemp += bArray[i];
-    Serial.print("i = ["); Serial.print(i); Serial.print("] = "); Serial.println(bArray[i]);
   }
   return bTemp / iFilterLen;
 }
