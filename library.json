@@ -1,0 +1,12 @@
+{
+  "name": "DFRobot OzoneSensor",
+  "keywords": "DFRobot, sensors, ozone",
+  "description": "DFRobot's OzoneSensor arduino library",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/DFRobot/DFRobot_OzoneSensor"
+  },
+  "frameworks": "arduino",
+  "platforms": "*"
+}
