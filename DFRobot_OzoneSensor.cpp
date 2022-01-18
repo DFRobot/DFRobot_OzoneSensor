@@ -1,80 +1,45 @@
-/*
-
-  MIT License
-
-  Copyright (C) <2019> <@DFRobot ZhiXinLiu>
-
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this
-
-  software and associated documentation files (the "Software"), to deal in the Software
-
-  without restriction, including without limitation the rights to use, copy, modify,
-
-  merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-
-  permit persons to whom the Software is furnished to do so.
-
-
-
-  The above copyright notice and this permission notice shall be included in all copies or
-
-  substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-
-  INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-
-  PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-
-  FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-
-  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+/*!
+ * @file DFRobot_OzoneSensor.cpp
+ * @brief Define the basic structure of the DFRobot_OzoneSensor class, the implementation of the basic methods
+ * @copyright	Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @license The MIT License (MIT)
+ * @author [ZhixinLiu](zhixin.liu@dfrobot.com)
+ * @version V1.0
+ * @date 2019-07-13
+ * @url https://github.com/DFRobot/DFRobot_OzoneSensor
  */
-#include <Arduino.h>
-#include <Wire.h>
 #include "DFRobot_OzoneSensor.h"
 
-DFRobot_OzoneSensor::DFRobot_OzoneSensor()
-{
-}
-DFRobot_OzoneSensor::~DFRobot_OzoneSensor()
-{
-}
+DFRobot_OzoneSensor::DFRobot_OzoneSensor(){}
+DFRobot_OzoneSensor::~DFRobot_OzoneSensor(){}
 
-
-/* join i2c bus (address optional for master) */
 bool DFRobot_OzoneSensor::begin(uint8_t addr)
 {
-  this->_addr = addr;              // Set the host address 
-  Wire.begin();                     // connecting the i2c bus 
+  this->_addr = addr;
+  Wire.begin();
   Wire.beginTransmission(_addr);
-  if(Wire.endTransmission() == 0) {
-    delay(100); return true;
+  if(Wire.endTransmission() == 0){
+    delay(100);
+    return true;
   }
   delay(100);
   return false;
 }
 
-
-/* Write data to the i2c register  */
-void DFRobot_OzoneSensor::i2cWrite(uint8_t Reg , uint8_t pdata)
+void DFRobot_OzoneSensor::i2cWrite(uint8_t reg , uint8_t pData)
 {
   Wire.beginTransmission(_addr);
-  Wire.write(Reg);
-  Wire.write(pdata);
+  Wire.write(reg);
+  Wire.write(pData);
   Wire.endTransmission();
 }
 
-
-/* i2c Read ozone concentration data */
-int16_t DFRobot_OzoneSensor::i2cReadOzoneData(uint8_t Reg)
+int16_t DFRobot_OzoneSensor::i2cReadOzoneData(uint8_t reg)
 {
   uint8_t i = 0;
   uint8_t rxbuf[10]={0};
   Wire.beginTransmission(_addr);
-  Wire.write(Reg);
+  Wire.write(reg);
   Wire.endTransmission();
   delay(100);
   Wire.requestFrom(_addr, (uint8_t)2);
@@ -83,52 +48,49 @@ int16_t DFRobot_OzoneSensor::i2cReadOzoneData(uint8_t Reg)
   return ((int16_t)rxbuf[0] << 8) + rxbuf[1];
 }
 
-
-/* Set active and passive mode */
-void DFRobot_OzoneSensor::SetModes(uint8_t Mode)
+void DFRobot_OzoneSensor::setModes(uint8_t mode)
 {
-  if(Mode == MEASURE_MODE_AUTOMATIC) {                            // configure to active mode
+  if(mode == MEASURE_MODE_AUTOMATIC){
     i2cWrite(MODE_REGISTER , MEASURE_MODE_AUTOMATIC);
-    delay(100);   _M_Flag = 0;                                    // Active mode flag bit
-  }else if (Mode == MEASURE_MODE_PASSIVE){                        // Configure to passive mode
-    i2cWrite(MODE_REGISTER , MEASURE_MODE_PASSIVE); 
-    delay(100);   _M_Flag = 1;                                    // Passive mode flag bit
+    delay(100);
+    _M_Flag = 0;
+  }else if(mode == MEASURE_MODE_PASSIVE){
+    i2cWrite(MODE_REGISTER , MEASURE_MODE_PASSIVE);
+    delay(100);
+    _M_Flag = 1;
   }else {
     return;
   }
 }
 
-
-/* Reading ozone concentration */
-int16_t DFRobot_OzoneSensor::ReadOzoneData(uint8_t CollectNum)
+int16_t DFRobot_OzoneSensor::readOzoneData(uint8_t collectNum)
 {
-  static uint8_t i = 0 ,j = 0;
-  if (CollectNum > 0) {
-    for(j = CollectNum - 1;  j > 0; j--) {  OzoneData[j] = OzoneData[j-1]; }
-    if(_M_Flag == 0) {        
-      i2cWrite(SET_PASSIVE_REGISTER , AUTO_READ_DATA);      delay(100);    // read active data in active mode
-      OzoneData[0] = i2cReadOzoneData(AUTO_DATA_HIGE_REGISTER);
-    }else if(_M_Flag == 1) {
-      i2cWrite(SET_PASSIVE_REGISTER , PASSIVE_READ_DATA);   delay(100);    // read passive data in passive mode, first request once, then read the data
-      OzoneData[0] = i2cReadOzoneData(PASS_DATA_HIGE_REGISTER);
+  static uint8_t i = 0, j = 0;
+  if (collectNum > 0) {
+    for(j = collectNum - 1;  j > 0; j--){
+      ozoneData[j] = ozoneData[j-1];
     }
-    if(i < CollectNum) i++;
-    return getAverageNum(OzoneData, i);
-  }else if(CollectNum <= 0 || CollectNum > 100){
+    if(_M_Flag == 0){        
+      i2cWrite(SET_PASSIVE_REGISTER , AUTO_READ_DATA);
+      delay(100);
+      ozoneData[0] = i2cReadOzoneData(AUTO_DATA_HIGE_REGISTER);
+    }else if(_M_Flag == 1){
+      i2cWrite(SET_PASSIVE_REGISTER , PASSIVE_READ_DATA);   delay(100);    // read passive data in passive mode, first request once, then read the data
+      ozoneData[0] = i2cReadOzoneData(PASS_DATA_HIGE_REGISTER);
+    }
+    if(i < collectNum) i++;
+    return getAverageNum(ozoneData, i);
+  }else if(collectNum <= 0 || collectNum > 100){
    return -1;
   }
+  return 0;
 }
 
-
-/* Get the average data */
 int DFRobot_OzoneSensor::getAverageNum(int bArray[], int iFilterLen) 
 {
-  uint8_t i = 0;
   unsigned long bTemp = 0;
-  for(i = 0; i < iFilterLen; i++) {
+  for(uint16_t i = 0; i < iFilterLen; i++) {
     bTemp += bArray[i];
   }
   return bTemp / iFilterLen;
 }
-
-
