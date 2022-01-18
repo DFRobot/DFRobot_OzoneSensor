@@ -4,7 +4,7 @@
 This is a compact arduino compatible ozone sensor module that can easily and accurately measure the concentration of ozone gas in the environment. <br>
 It can be widely used in portable instruments, air quality monitoring equipment, disinfection cabinets, smart homes and other equipment places. <br>
 
-![效果图](../../resources/images/sen0321.jpg)
+![效果图](../../resources/images/SEN0321.jpg)
 
 
 ## Product Link（https://www.dfrobot.com/product-1832.html）

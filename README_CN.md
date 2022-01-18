@@ -3,7 +3,7 @@
 
 这是一款体积小巧的arduino兼容的臭氧传感器模组，可方便、准确地测量环境中臭氧气体的浓度。可广泛应用于便携式仪器仪表、空气质量监测设备、消毒柜、智能家居等设备场所。<br>
 
-![效果图](resources/images/sen0321.jpg)
+![效果图](resources/images/SEN0321.jpg)
 
 ## 产品链接（https://www.dfrobot.com.cn/goods-2672.html）
 

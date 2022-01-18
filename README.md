@@ -5,7 +5,7 @@ This is a compact arduino compatible ozone sensor module that can easily and acc
 It can be widely used in portable instruments, air quality monitoring equipment, disinfection cabinets, smart homes and other equipment places. <br>
 
 
-![效果图](resources/images/sen0321.jpg)
+![效果图](resources/images/SEN0321.jpg)
 
 
 ## Product Link（https://www.dfrobot.com/product-2005.html）
