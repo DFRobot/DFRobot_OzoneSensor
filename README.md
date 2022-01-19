@@ -8,7 +8,7 @@ It can be widely used in portable instruments, air quality monitoring equipment,
 ![效果图](resources/images/SEN0321.jpg)
 
 
-## Product Link（https://www.dfrobot.com/product-2005.html）
+## Product Link(https://www.dfrobot.com/product-2005.html)
 
     SKU：SEN0321
 

@@ -5,7 +5,7 @@
 
 ![效果图](resources/images/SEN0321.jpg)
 
-## 产品链接（https://www.dfrobot.com.cn/goods-2672.html）
+## 产品链接(https://www.dfrobot.com.cn/goods-2672.html)
 
     SKU：SEN0321
 
