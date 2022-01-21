@@ -22,13 +22,13 @@ It can be widely used in portable instruments, air quality monitoring equipment,
 
 ## Summary
 
-The ozone sensor launched by DFRobot adopts the principle of electrochemistry and has been calibrated before leaving the factory, which can accurately measure the ozone concentration in the environment.<br>
-And it has the characteristics of anti-interference, high stability and high sensitivity. <br>
-The resolution can reach 10ppb<br>
-support 3.3~5.5V wide voltage input<br>
-use I2C output<br>
-compatible with mainstream devices such as Arduino, ESP32, Raspberry Pi, etc<br>
-the service life in the air is up to two years<br>
+- The ozone sensor launched by DFRobot adopts the principle of electrochemistry and has been calibrated before leaving the factory, which can accurately measure the ozone concentration in the environment.<br>
+- And it has the characteristics of anti-interference, high stability and high sensitivity. <br>
+- The resolution can reach 10ppb<br>
+- support 3.3~5.5V wide voltage input<br>
+- use I2C output<br>
+- compatible with mainstream devices such as Arduino, ESP32, Raspberry Pi, etc<br>
+- the service life in the air is up to two years<br>
 
 ## Installation
 Download the library file before use, paste it into the custom directory for Raspberry Pi, then open the examples folder and run the demo in the folder.
