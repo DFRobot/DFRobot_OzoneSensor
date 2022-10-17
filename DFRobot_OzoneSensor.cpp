@@ -10,15 +10,18 @@
  */
 #include "DFRobot_OzoneSensor.h"
 
-DFRobot_OzoneSensor::DFRobot_OzoneSensor(){}
+DFRobot_OzoneSensor::DFRobot_OzoneSensor(TwoWire & wire):
+    _wire(wire)
+{}
+
 DFRobot_OzoneSensor::~DFRobot_OzoneSensor(){}
 
 bool DFRobot_OzoneSensor::begin(uint8_t addr)
 {
   this->_addr = addr;
-  Wire.begin();
-  Wire.beginTransmission(_addr);
-  if(Wire.endTransmission() == 0){
+  _wire.begin();
+  _wire.beginTransmission(_addr);
+  if(_wire.endTransmission() == 0){
     delay(100);
     return true;
   }
@@ -28,23 +31,23 @@ bool DFRobot_OzoneSensor::begin(uint8_t addr)
 
 void DFRobot_OzoneSensor::i2cWrite(uint8_t reg , uint8_t pData)
 {
-  Wire.beginTransmission(_addr);
-  Wire.write(reg);
-  Wire.write(pData);
-  Wire.endTransmission();
+  _wire.beginTransmission(_addr);
+  _wire.write(reg);
+  _wire.write(pData);
+  _wire.endTransmission();
 }
 
 int16_t DFRobot_OzoneSensor::i2cReadOzoneData(uint8_t reg)
 {
   uint8_t i = 0;
   uint8_t rxbuf[10]={0};
-  Wire.beginTransmission(_addr);
-  Wire.write(reg);
-  Wire.endTransmission();
+  _wire.beginTransmission(_addr);
+  _wire.write(reg);
+  _wire.endTransmission();
   delay(100);
-  Wire.requestFrom(_addr, (uint8_t)2);
-    while (Wire.available())
-     rxbuf[i++] = Wire.read();
+  _wire.requestFrom(_addr, (uint8_t)2);
+    while (_wire.available())
+     rxbuf[i++] = _wire.read();
   return ((int16_t)rxbuf[0] << 8) + rxbuf[1];
 }
 
@@ -70,7 +73,7 @@ int16_t DFRobot_OzoneSensor::readOzoneData(uint8_t collectNum)
     for(j = collectNum - 1;  j > 0; j--){
       ozoneData[j] = ozoneData[j-1];
     }
-    if(_M_Flag == 0){        
+    if(_M_Flag == 0){
       i2cWrite(SET_PASSIVE_REGISTER , AUTO_READ_DATA);
       delay(100);
       ozoneData[0] = i2cReadOzoneData(AUTO_DATA_HIGE_REGISTER);
@@ -86,7 +89,7 @@ int16_t DFRobot_OzoneSensor::readOzoneData(uint8_t collectNum)
   return 0;
 }
 
-int DFRobot_OzoneSensor::getAverageNum(int bArray[], int iFilterLen) 
+int DFRobot_OzoneSensor::getAverageNum(int bArray[], int iFilterLen)
 {
   unsigned long bTemp = 0;
   for(uint16_t i = 0; i < iFilterLen; i++) {

@@ -31,12 +31,12 @@
 
 class DFRobot_OzoneSensor{
 public:
-  DFRobot_OzoneSensor();
+  DFRobot_OzoneSensor(TwoWire & wire = Wire);
   ~DFRobot_OzoneSensor();
 
   /**
    * @fn begin
-   * @brief initialization function 
+   * @brief initialization function
    * @param i2c address
    * @n     OZONE_ADDRESS_0  0x70
    * @n     OZONE_ADDRESS_1  0x71
@@ -66,12 +66,13 @@ public:
    * @return ozone concentration: one part per billion (PPB).
    */
   int16_t readOzoneData(uint8_t collectNum = 20);
-  
+
 private:
   void i2cWrite(uint8_t reg , uint8_t pData);
   int16_t i2cReadOzoneData(uint8_t reg);
   int ozoneData[OCOUNT] = {0x00};
   int getAverageNum(int bArray[], int iFilterLen);
+  TwoWire & _wire;
   uint8_t _addr;       ///< IIC Slave number
   uint8_t _M_Flag = 0; ///< mode flag
 };
