@@ -12,7 +12,7 @@
 import serial
 import time
 import smbus
-                
+
 OZONE_ADDRESS_0           = 0x70
 OZONE_ADDRESS_1           = 0x71
 OZONE_ADDRESS_2           = 0x72
@@ -38,7 +38,7 @@ AUTO_DATA_LOW_REGISTER    = 0x0A
 PASS_DATA_HIGE_REGISTER   = 0x07
 ## auto data Low  eight bits
 PASS_DATA_LOW_REGISTER    = 0x08
-  
+
 class DFRobot_Ozone(object):
   ## mode flag
   __m_flag   = 0
@@ -102,7 +102,7 @@ class DFRobot_Ozone(object):
     rslt = self.read_reg(reg ,2)
     return ((rslt[0] << 8) + rslt[1])
 
-class DFRobot_Ozone_IIC(DFRobot_Ozone): 
+class DFRobot_Ozone_IIC(DFRobot_Ozone):
   def __init__(self ,bus ,addr):
     self.__addr = addr
     super(DFRobot_Ozone_IIC, self).__init__(bus)

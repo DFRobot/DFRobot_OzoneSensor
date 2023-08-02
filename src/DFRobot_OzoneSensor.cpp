@@ -4,21 +4,28 @@
  * @copyright	Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license The MIT License (MIT)
  * @author [ZhixinLiu](zhixin.liu@dfrobot.com)
- * @version V1.0
- * @date 2019-07-13
+ * @version V1.0.1
+ * @date 2023-08-02
  * @url https://github.com/DFRobot/DFRobot_OzoneSensor
  */
 #include "DFRobot_OzoneSensor.h"
 
-DFRobot_OzoneSensor::DFRobot_OzoneSensor(){}
-DFRobot_OzoneSensor::~DFRobot_OzoneSensor(){}
+DFRobot_OzoneSensor::DFRobot_OzoneSensor(TwoWire *pWire)
+{
+  this->_pWire = pWire;
+}
+
+DFRobot_OzoneSensor::~DFRobot_OzoneSensor()
+{
+  this->_pWire = NULL;
+}
 
 bool DFRobot_OzoneSensor::begin(uint8_t addr)
 {
   this->_addr = addr;
-  Wire.begin();
-  Wire.beginTransmission(_addr);
-  if(Wire.endTransmission() == 0){
+  _pWire->begin();
+  _pWire->beginTransmission(_addr);
+  if(_pWire->endTransmission() == 0){
     delay(100);
     return true;
   }
@@ -28,23 +35,23 @@ bool DFRobot_OzoneSensor::begin(uint8_t addr)
 
 void DFRobot_OzoneSensor::i2cWrite(uint8_t reg , uint8_t pData)
 {
-  Wire.beginTransmission(_addr);
-  Wire.write(reg);
-  Wire.write(pData);
-  Wire.endTransmission();
+  _pWire->beginTransmission(_addr);
+  _pWire->write(reg);
+  _pWire->write(pData);
+  _pWire->endTransmission();
 }
 
 int16_t DFRobot_OzoneSensor::i2cReadOzoneData(uint8_t reg)
 {
   uint8_t i = 0;
   uint8_t rxbuf[10]={0};
-  Wire.beginTransmission(_addr);
-  Wire.write(reg);
-  Wire.endTransmission();
+  _pWire->beginTransmission(_addr);
+  _pWire->write(reg);
+  _pWire->endTransmission();
   delay(100);
-  Wire.requestFrom(_addr, (uint8_t)2);
-    while (Wire.available())
-     rxbuf[i++] = Wire.read();
+  _pWire->requestFrom(_addr, (uint8_t)2);
+    while (_pWire->available())
+     rxbuf[i++] = _pWire->read();
   return ((int16_t)rxbuf[0] << 8) + rxbuf[1];
 }
 
@@ -70,7 +77,7 @@ int16_t DFRobot_OzoneSensor::readOzoneData(uint8_t collectNum)
     for(j = collectNum - 1;  j > 0; j--){
       ozoneData[j] = ozoneData[j-1];
     }
-    if(_M_Flag == 0){        
+    if(_M_Flag == 0){
       i2cWrite(SET_PASSIVE_REGISTER , AUTO_READ_DATA);
       delay(100);
       ozoneData[0] = i2cReadOzoneData(AUTO_DATA_HIGE_REGISTER);
@@ -86,7 +93,7 @@ int16_t DFRobot_OzoneSensor::readOzoneData(uint8_t collectNum)
   return 0;
 }
 
-int DFRobot_OzoneSensor::getAverageNum(int bArray[], int iFilterLen) 
+int DFRobot_OzoneSensor::getAverageNum(int bArray[], int iFilterLen)
 {
   unsigned long bTemp = 0;
   for(uint16_t i = 0; i < iFilterLen; i++) {

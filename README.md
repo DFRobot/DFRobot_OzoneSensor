@@ -85,6 +85,7 @@ Micro:bit          |              |              |      √      |
 ## History
 
 - 2019/10/10 - V1.0.0 Version
+- 2023/08/02 - V1.0.1 Version
 
 ## Credits
 

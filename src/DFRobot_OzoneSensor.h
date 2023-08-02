@@ -4,8 +4,8 @@
  * @copyright	Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license The MIT License (MIT)
  * @author [ZhixinLiu](zhixin.liu@dfrobot.com)
- * @version V1.0
- * @date 2019-10-10
+ * @version V1.0.1
+ * @date 2023-08-02
  * @url https://github.com/DFRobot/DFRobot_OzoneSensor
  */
 #ifndef __DFRobot_OzoneSensor_H__
@@ -31,12 +31,12 @@
 
 class DFRobot_OzoneSensor{
 public:
-  DFRobot_OzoneSensor();
+  DFRobot_OzoneSensor(TwoWire *pWire = &Wire);
   ~DFRobot_OzoneSensor();
 
   /**
    * @fn begin
-   * @brief initialization function 
+   * @brief initialization function
    * @param i2c address
    * @n     OZONE_ADDRESS_0  0x70
    * @n     OZONE_ADDRESS_1  0x71
@@ -67,6 +67,7 @@ public:
    */
   int16_t readOzoneData(uint8_t collectNum = 20);
   
+  
 private:
   void i2cWrite(uint8_t reg , uint8_t pData);
   int16_t i2cReadOzoneData(uint8_t reg);
@@ -74,5 +75,6 @@ private:
   int getAverageNum(int bArray[], int iFilterLen);
   uint8_t _addr;       ///< IIC Slave number
   uint8_t _M_Flag = 0; ///< mode flag
+  TwoWire *_pWire;
 };
 #endif
